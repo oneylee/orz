@@ -3,6 +3,7 @@
 // #include <thread>
 #include <memory>
 #include "macro.h"
+#include <iostream>
 
 namespace orz
 {
@@ -10,7 +11,7 @@ template<typename T>
 class Singleton {
 public:
   static T* GetInstance() {
-    std::once_flag flag;
+    static std::once_flag flag;
     std::call_once(flag, [&]() { _singleton.reset(new T()); });
     return _singleton.get();
   }
@@ -26,5 +27,5 @@ private:
 };
 
 template<typename T>
-static std::unique_ptr<T> Singleton<T>::_singleton;
+std::unique_ptr<T> Singleton<T>::_singleton = nullptr;
 } // namespace orz
